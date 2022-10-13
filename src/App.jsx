@@ -14,6 +14,7 @@ function App() {
   //State Control
   const [todos, setTodos] = useState(data);
   const [searchValue, setSearchValue] = useState(" ");
+  const [addTask, setAddTask] = useState(false);
 
   //Variables
   const completed = todos.filter((todo) => {
@@ -30,6 +31,21 @@ function App() {
     let newTasks = [...todos];
     newTasks[index].completed = true;
     return newTasks;
+  }
+  function deleteTask(taskToDelete) {
+    let index = todos.findIndex((task) => task.id == taskToDelete);
+    let newTasks = [...todos];
+    newTasks.splice(index, 1);
+    return newTasks;
+  }
+  function addTodo(taskInput) {
+    const newTodo = {
+      id: todos.length + 1,
+      taskName: taskInput,
+      completed: false,
+    };
+    const newTodos = [...todos, newTodo];
+    return newTodos;
   }
 
   //App Control
@@ -48,11 +64,34 @@ function App() {
       <TodoCounter completed={completed.length} total={todos.length} />
       <TodoSearch searchValue={searchValue} setSearchValue={setSearchValue} />
       {searchedTodos.length > 0 ? (
-        <TodoList tasks={searchedTodos} completeTodo={completeTodo} updateTasks={updateTasks}/>
+        <TodoList
+          tasks={searchedTodos}
+          completeTodo={completeTodo}
+          updateTasks={updateTasks}
+          deleteTask={deleteTask}
+        />
       ) : (
-        <p>No tasks added</p>
+        <div className="list-ctn">
+          <p>No tasks added</p>
+        </div>
       )}
-      <TodoAdd />
+      <button
+        className="addTodo"
+        onClick={() => {
+          setAddTask(true);
+        }}
+      >
+        +
+      </button>
+      {addTask ? (
+        <TodoAdd
+          setAddTask={setAddTask}
+          updateTasks={updateTasks}
+          addTodo={addTodo}
+        />
+      ) : (
+        <React.Fragment />
+      )}
     </React.Fragment>
   );
 }
