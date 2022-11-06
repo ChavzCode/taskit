@@ -1,17 +1,26 @@
+import { AiOutlineCheck, AiOutlineClose } from "react-icons/ai";
+
 function TodoItem({ task, completeTodo, updateTasks, deleteTask }) {
   return (
-    <div id={task.id} className={"task-ctn"}>
+    <div id={task.id} className={ task.completed ? 'task-ctn completed-todo' : "task-ctn" }>
       <button
+        className="item-btn completed-btn"
         onClick={() => {
           updateTasks(completeTodo(task.id));
         }}
       >
-        yes
+        <AiOutlineCheck />
       </button>
-      <p>{task.taskName}</p>
-      <button onClick={() => {
-        updateTasks(deleteTask(task.id))
-      }}>X</button>
+      <p className="task-description">{task.taskName}</p>
+      <button
+        className="item-btn close-btn"
+        onClick={() => {
+          updateTasks(deleteTask(task.id));
+        }}
+      >
+        {" "}
+        <AiOutlineClose />{" "}
+      </button>
     </div>
   );
 }
