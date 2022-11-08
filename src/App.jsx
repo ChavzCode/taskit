@@ -3,6 +3,7 @@ import TodoCounter from "./components/TodoCounter";
 import TodoSearch from "./components/TodoSearch";
 import TodoList from "./components/TodoList";
 import TodoAdd from "./components/TodoAdd";
+import TodoLoading from "./components/TodoLoading";
 
 //Data
 //import data from "./data/data.js";
@@ -12,24 +13,39 @@ import TodoAdd from "./components/TodoAdd";
 //Custom Hooks
 function useLocalStorage(dataset, initialValue) {
   //Local Storage - Data
-  let localData = localStorage.getItem(dataset);
-  let parsedData;
+  const [todos, setTodos] = useState(initialValue);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
-  if (localData) {
-    parsedData = JSON.parse(localData);
-  } else {
-    localStorage.setItem("data", JSON.stringify(initialValue));
-    parsedData = [];
-  }
-  const [todos, setTodos] = useState(parsedData);
+  //Simulate Loading time
+  useEffect(() => {
+    setTimeout(() => {
+      try {
+        let localData = localStorage.getItem(dataset);
+        let parsedData;
 
-  return [todos, setTodos];
+        if (localData) {
+          parsedData = JSON.parse(localData);
+        } else {
+          localStorage.setItem("data", JSON.stringify(initialValue));
+          parsedData = [];
+        }
+
+        setTodos(parsedData);
+        setLoading(false);
+      } catch (err) {
+        setError(err);
+      }
+    }, 1000);
+  });
+
+  return { todos, setTodos, loading, error };
 }
 
 //App
 function App() {
   //State Control
-  const [todos, setTodos] = useLocalStorage("data", []);
+  const { todos, setTodos, loading, error } = useLocalStorage("data", []);
   const [searchValue, setSearchValue] = useState(" ");
   const [addTask, setAddTask] = useState(false);
 
@@ -81,26 +97,42 @@ function App() {
     <React.Fragment>
       <TodoCounter completed={completed.length} total={todos.length} />
       <TodoSearch searchValue={searchValue} setSearchValue={setSearchValue} />
-      {searchedTodos.length > 0 ? (
-        <TodoList
-          tasks={searchedTodos}
-          completeTodo={completeTodo}
-          updateTasks={updateTasks}
-          deleteTask={deleteTask}
-        />
-      ) : (
-        <div className="list-ctn">
-          <p>No tasks added</p>
+
+      {/* Conditional Rendering */}
+      {loading && <TodoLoading />}
+
+      {loading && error && (
+        <div className="list-ctn error">
+          <p>{error}</p>
         </div>
       )}
-      <button
-        className="addTodo"
-        onClick={() => {
-          setAddTask(true);
-        }}
-      >
-        +
-      </button>
+
+      {!loading && !error && (
+        <React.Fragment>
+          {searchedTodos.length > 0 && !loading ? (
+            <TodoList
+              tasks={searchedTodos}
+              completeTodo={completeTodo}
+              updateTasks={updateTasks}
+              deleteTask={deleteTask}
+            />
+          ) : (
+            <div className="list-ctn">
+              <p>No tasks added</p>
+            </div>
+          )}
+
+          <button
+            className="addTodo"
+            onClick={() => {
+              setAddTask(true);
+            }}
+          >
+            +
+          </button>
+        </React.Fragment>
+      )}
+
       {addTask ? (
         <TodoAdd
           setAddTask={setAddTask}

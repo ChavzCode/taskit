@@ -161,3 +161,21 @@ body {
   font-weight: bold;
   color: #fff;
 }
+
+/* Loading Icon */
+.loading-icon svg{
+  font-size: 4rem;
+  position: relative;
+  animation-name: loading;
+  animation-duration: 0.7s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes loading {
+  0%{
+    transform: rotate(0deg);
+  }
+  100%{
+    transform: rotate(360deg);
+  }
+}
