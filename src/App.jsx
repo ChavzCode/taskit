@@ -9,21 +9,27 @@ import TodoAdd from "./components/TodoAdd";
 
 //Helpers
 
-//App
-function App() {
+//Custom Hooks
+function useLocalStorage(dataset, initialValue) {
   //Local Storage - Data
-  let localData = localStorage.getItem('data');
+  let localData = localStorage.getItem(dataset);
   let parsedData;
-  
-  if(localData){
-    parsedData = JSON.parse(localData)
-  }else{
-    localStorage.setItem('data', JSON.stringify([]));
+
+  if (localData) {
+    parsedData = JSON.parse(localData);
+  } else {
+    localStorage.setItem("data", JSON.stringify(initialValue));
     parsedData = [];
   }
-  
-  //State Control
   const [todos, setTodos] = useState(parsedData);
+
+  return [todos, setTodos];
+}
+
+//App
+function App() {
+  //State Control
+  const [todos, setTodos] = useLocalStorage("data", []);
   const [searchValue, setSearchValue] = useState(" ");
   const [addTask, setAddTask] = useState(false);
 
@@ -36,7 +42,7 @@ function App() {
   //Functions
   function updateTasks(tasks) {
     setTodos(tasks);
-    localStorage.setItem('data', JSON.stringify(tasks));
+    localStorage.setItem("data", JSON.stringify(tasks));
   }
   function completeTodo(taskToUpdate) {
     let index = todos.findIndex((task) => task.id == taskToUpdate);
