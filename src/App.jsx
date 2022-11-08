@@ -5,14 +5,25 @@ import TodoList from "./components/TodoList";
 import TodoAdd from "./components/TodoAdd";
 
 //Data
-import data from "./data/data.js";
+//import data from "./data/data.js";
 
 //Helpers
 
 //App
 function App() {
+  //Local Storage - Data
+  let localData = localStorage.getItem('data');
+  let parsedData;
+  
+  if(localData){
+    parsedData = JSON.parse(localData)
+  }else{
+    localStorage.setItem('data', JSON.stringify([]));
+    parsedData = [];
+  }
+  
   //State Control
-  const [todos, setTodos] = useState(data);
+  const [todos, setTodos] = useState(parsedData);
   const [searchValue, setSearchValue] = useState(" ");
   const [addTask, setAddTask] = useState(false);
 
@@ -25,6 +36,7 @@ function App() {
   //Functions
   function updateTasks(tasks) {
     setTodos(tasks);
+    localStorage.setItem('data', JSON.stringify(tasks));
   }
   function completeTodo(taskToUpdate) {
     let index = todos.findIndex((task) => task.id == taskToUpdate);
