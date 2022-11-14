@@ -1,7 +1,10 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { TodoContext } from "../context/TodoContext";
 
-function TodoAdd({ setAddTask, updateTasks, addTodo }) {
+function TodoAdd() {
   const [taskInput, setTaskInput] = useState("");
+  const { setAddTask, saveTodos, addTodo } = useContext(TodoContext);
+
   return (
     <div className="addTask-ctn">
       <div className="addTask">
@@ -26,7 +29,7 @@ function TodoAdd({ setAddTask, updateTasks, addTodo }) {
           <button
             className="add-btn"
             onClick={() => {
-              updateTasks(addTodo(taskInput));
+              saveTodos(addTodo(taskInput));
               setAddTask(false);
             }}
           >

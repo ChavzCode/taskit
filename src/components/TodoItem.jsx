@@ -1,12 +1,19 @@
+import React from "react";
+import { TodoContext } from "../context/TodoContext";
 import { AiOutlineCheck, AiOutlineClose } from "react-icons/ai";
 
-function TodoItem({ task, completeTodo, updateTasks, deleteTask }) {
+function TodoItem({ task }) {
+  const { completeTodo, saveTodos, deleteTask } = React.useContext(TodoContext);
+
   return (
-    <div id={task.id} className={ task.completed ? 'task-ctn completed-todo' : "task-ctn" }>
+    <div
+      id={task.id}
+      className={task.completed ? "task-ctn completed-todo" : "task-ctn"}
+    >
       <button
         className="item-btn completed-btn"
         onClick={() => {
-          updateTasks(completeTodo(task.id));
+          saveTodos(completeTodo(task.id));
         }}
       >
         <AiOutlineCheck />
@@ -15,7 +22,7 @@ function TodoItem({ task, completeTodo, updateTasks, deleteTask }) {
       <button
         className="item-btn close-btn"
         onClick={() => {
-          updateTasks(deleteTask(task.id));
+          saveTodos(deleteTask(task.id));
         }}
       >
         {" "}
