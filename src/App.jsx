@@ -5,6 +5,7 @@ import TodoSearch from "./components/TodoSearch";
 import TodoList from "./components/TodoList";
 import TodoAdd from "./components/TodoAdd";
 import TodoLoading from "./components/TodoLoading";
+import TodoModal from "./components/TodoModal";
 
 //App
 function App() {
@@ -46,8 +47,12 @@ function App() {
           </button>
         </React.Fragment>
       )}
+      {addTask && (
+        <TodoModal>
+          <TodoAdd />
+        </TodoModal>
+      )}
 
-      {addTask ? <TodoAdd /> : <React.Fragment />}
     </React.Fragment>
   );
 }

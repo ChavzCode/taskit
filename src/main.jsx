@@ -4,7 +4,7 @@ import { TodoProvider } from './context/TodoContext.jsx'
 import App from './App.jsx'
 import './index.css'
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+ReactDOM.createRoot(document.getElementById('app-root')).render(
     <React.StrictMode>
         <TodoProvider>
             <App />
