@@ -3,7 +3,7 @@ import { TodoContext } from "../context/TodoContext";
 import { AiOutlineCheck, AiOutlineClose } from "react-icons/ai";
 
 function TodoItem({ task }) {
-  const { completeTodo, saveTodos, deleteTask } = React.useContext(TodoContext);
+  const { statusTodo, saveTodos, deleteTask } = React.useContext(TodoContext);
 
   return (
     <div
@@ -13,7 +13,7 @@ function TodoItem({ task }) {
       <button
         className="item-btn completed-btn"
         onClick={() => {
-          saveTodos(completeTodo(task.id));
+          saveTodos(statusTodo(task.id));
         }}
       >
         <AiOutlineCheck />

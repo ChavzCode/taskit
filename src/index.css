@@ -9,6 +9,11 @@ body {
   margin: 0 auto;
   max-width: 600px;
 }
+@media (min-width: 768px) {
+  #app-root{
+    width: 100%;
+  }
+}
 
 /*TodoCounter*/
 .ctn-counter {
@@ -53,7 +58,7 @@ body {
 /*Todo-Item*/
 .task-ctn {
   position: relative;
-  width: 450px;
+  width: 100%;
   display: flex;
   justify-content: space-evenly;
   margin: 20px 0;
@@ -61,6 +66,12 @@ body {
   background-color: #fff;
   border-radius: 10px;
 }
+@media (min-width: 500px){
+  .task-ctn{
+    width: 450px;
+  }
+}
+
 .item-btn {
   transition: all 0.3s ease-in-out;
   position: absolute;

@@ -13,10 +13,10 @@ function TodoProvider(props) {
   let searchedTodos;
 
   //Functions
-  function completeTodo(taskToUpdate) {
+  function statusTodo(taskToUpdate) {
     let index = todos.findIndex((task) => task.id == taskToUpdate);
     let newTasks = [...todos];
-    newTasks[index].completed = true;
+    newTasks[index].completed = !newTasks[index].completed;
     return newTasks;
   }
   function deleteTask(taskToDelete) {
@@ -57,7 +57,7 @@ function TodoProvider(props) {
         setSearchValue,
         addTask,
         setAddTask,
-        completeTodo,
+        statusTodo,
         deleteTask,
         addTodo,
         searchedTodos,
