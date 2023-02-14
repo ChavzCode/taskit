@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 function useLocalStorage(dataset, initialValue) {
   //Local Storage - Data
   const [todos, setTodos] = useState(initialValue);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true); 
   const [error, setError] = useState(false);
 
   //Simulate Loading time
